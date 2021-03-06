@@ -24,7 +24,8 @@
     -    This function takes in the output of sentiment_analysis function and creates a visualization of user's tweets with sentimental analysis.
     
 ## Related Packages
-- TODO
+
+There are a few existing R packages that perform tweets text analysis and sentiment analysis available on CRAN, such as [twitteR](https://cran.r-project.org/web/packages/twitteR/), and[tidytext](https://cran.r-project.org/web/packages/tidytext/).
 
 ## Installation
 
