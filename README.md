@@ -1,28 +1,42 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
 
 # tweetr
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of tweetr is to ...
+## Package Overview
+
+`pytweet` is a python package for text analysis and sentiment analysis
+on tweets. The package will allow you to extract tweets from Twitter,
+visualize user habit on tweet posting, and apply sentiment analysis to
+the data.
+
+## Features
+
+-   `get_tweets`:
+    -   This function extracts tweets from a Twitter user given their
+        handle (i.e. @elonmusk).
+-   `plot_timeline`:
+    -   This function creates an analysis of what time of day the tweets
+        occurs and plots the counts of tweets and hours.
+-   `plot_hashtags`:
+    -   This function creates an analysis of the hashtags in tweets, and
+        plots the hashtag analysis.
+-   `sentiment_analysis`:
+    -   This function applies sentiment analysis to tweets. It
+        associates tokens in tweets with positive or negative sentiments
+        and calculates their corresponding frequencies.
+-   `visualize_sentiment`:
+    -   This function takes in the output of sentiment\_analysis
+        function and creates a visualization of user’s tweets with
+        sentimental analysis.
 
 ## Installation
 
-You can install the released version of tweetr from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of tweetr from
+[CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("tweetr")
@@ -34,27 +48,5 @@ And the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("UBC-MDS/tweetr")
 ```
+
 ## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(tweetr)
-## basic example code
-```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
