@@ -22,6 +22,9 @@
 
 - `visualize_sentiment`:            
     -    This function takes in the output of sentiment_analysis function and creates a visualization of user's tweets with sentimental analysis.
+    
+## Related Packages
+- TODO
 
 ## Installation
 
