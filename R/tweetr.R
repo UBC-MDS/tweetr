@@ -1,3 +1,25 @@
+
+#' Get Tweets
+#'
+#' Create a data.frame of a user's tweets given the username/handle. 
+#' The output data.frame will contain two columns: sent time and tweet.
+#' 
+#' REQUIRES: Twitter API credentials need to be stored as environment 
+#' variables as this function calls directly to the bash_profile. 
+#'
+#' @param handle character, the username to query
+#' @param n_tweets integer, the number of tweets to retrieve. Must be positive or -1 (by default, all)
+#' @param include_replies logical, whether or not to include replies
+#' @param verbose logical, whether or not to print progress during the fetch
+#'
+#' @return data.frame
+#' @export
+#'
+#' @examples
+#' get_tweets('@BrunoMars', n_tweets=100)
+get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose = FALSE) {
+    
+
 #' Plot timeline analysis
 #'
 #' Analysis what time of day the tweets occurs and plot the
