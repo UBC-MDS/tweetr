@@ -25,7 +25,7 @@
     
 ## Related Packages
 
-There are a few existing R packages that perform tweets text analysis and sentiment analysis available on CRAN, such as [twitteR](https://cran.r-project.org/web/packages/twitteR/), and[tidytext](https://cran.r-project.org/web/packages/tidytext/).
+There are a few existing R packages that perform tweets text analysis and sentiment analysis available on CRAN, such as [twitteR](https://cran.r-project.org/web/packages/twitteR/), and [tidytext](https://cran.r-project.org/web/packages/tidytext/). Our package provides a lightweight, easy-to-use solution to conduct text analysis on tweets, with a special focus on sentiment analysis. 
 
 ## Installation
 
@@ -42,3 +42,9 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("UBC-MDS/tweetr")
 ```
 ## Example
+
+To be added
+
+## Contributors
+
+We welcome and recognize all contributions. You can see a list of current contributors in the [contributors tab](https://github.com/UBC-MDS/tweetr/graphs/contributors).
