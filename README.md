@@ -8,7 +8,7 @@
 
 ## Package Overview
 
-`pytweet` is a python package for text analysis and sentiment analysis
+`tweetr` is a R package for text analysis and sentiment analysis
 on tweets. The package will allow you to extract tweets from Twitter,
 visualize user habit on tweet posting, and apply sentiment analysis to
 the data.
