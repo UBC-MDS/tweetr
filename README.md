@@ -37,8 +37,7 @@ the data.
 
 There are a few existing R packages that perform tweets text analysis
 and sentiment analysis available on CRAN, such as
-[twitteR](https://cran.r-project.org/web/packages/twitteR/), and
-[tidytext](https://cran.r-project.org/web/packages/tidytext/).
+[twitteR](https://cran.r-project.org/web/packages/twitteR/), and [tidytext](https://cran.r-project.org/web/packages/tidytext/).
 
 ## Installation
 
