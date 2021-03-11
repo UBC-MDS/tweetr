@@ -22,18 +22,18 @@ test_get_tweets <- function() {
         expect_equal(nrow(output), 15)
     })
 
-    # # test specify n_tweets
-    # n = 10
-    # output_10_tweets <- get_tweets('@pytweetGod', n_tweets = n)
-    # test_that('Output should work corresponding to input params', {
-    #     expect_equal(nrow(output_10_tweets), n)
-    # })
-    #
-    # # test specify include_replies
-    # output_replies <- get_tweets('@pytweetGod', include_replies = TRUE)
-    # test_that('Output should work corresponding to input params', {
-    #     expect_true(nrow(output_replies) > nrow(output))
-    # })
+    # test specify n_tweets
+    n = 10
+    output_10_tweets <- get_tweets('@pytweetGod', n_tweets = n)
+    test_that('Output should work corresponding to input params', {
+        expect_equal(nrow(output_10_tweets), n)
+    })
+
+    # test specify include_replies
+    output_replies <- get_tweets('@pytweetGod', include_replies = TRUE)
+    test_that('Output should work corresponding to input params', {
+        expect_true(nrow(output_replies) > nrow(output))
+    })
 }
 
 test_get_tweets()
