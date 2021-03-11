@@ -63,22 +63,27 @@ plot_timeline <- function(df, time_col){
 
 plot_hashtags <- function(df){
 
+    # extract hashtag words as a list
     hashtags = str_extract_all(df$tweet, "[#][a-zA-Z0-9]+")
 
+    # initial a dataframe to store hashtags
     hashtag_data <- data.frame(hashtagwords = '')
-
     for(words in hashtags){
         for(word in words){
             hashtag_data <- rbind(hash_data, word)
         }
     }
+    # count hashtag words and get the top 15 frequent word
     hashtag_data <- hashtag_data  %>% group_by(hashtagwords) %>% summarize(count=n())
     hashtag_data <- hashtag_data[order(-hashtag_data$count),][1:15,]
     hashtag_data
 
+    # Plot hashtag words
     hashtag_plot <- ggplot(data=hashtag_data, aes(x = count, y = reorder(hashtagwords,count))) +
         geom_bar(stat="identity") +
         ggtitle("Top 15 Hashtag Words") +
+        xlab("Hashtags") +
+        ylab("Counts of Hashtags") +
         theme(text = element_text(size=15)) +
         theme_bw()
 
