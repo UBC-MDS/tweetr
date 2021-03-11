@@ -1,6 +1,4 @@
 library(twitteR)
-library(dplyr)
-library(purrr)
 library(tidyverse)
 
 #' Get Tweets
@@ -36,7 +34,7 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
         latest <- userTimeline(handle, n = n_max, includeRts = TRUE, excludeReplies = !include_replies)
     }
 
-    result <- tibble(map_df(latest, as.data.frame))
+    result <- tibble(purrr::map_df(latest, as.data.frame))
     oldestID <- min(result$id)
 
     # recursively retrieve tweets
@@ -46,7 +44,7 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
         }
 
         latest <- userTimeline(handle, n = n_max, includeRts = TRUE, excludeReplies = !include_replies, maxID = oldestID)
-        result <- rbind(result, tibble(map_df(latest, as.data.frame)))  # append results
+        result <- rbind(result, tibble(purrr::map_df(latest, as.data.frame)))  # append results
         oldestID <- result$id[nrow(result)]  # oldest tweet
 
         if (verbose) print(paste(nrow(result), "tweets downloaded..."))
