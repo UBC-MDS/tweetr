@@ -1,8 +1,3 @@
-# This is a demo generated automatically
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
-})
-
 #' Helper function to create helper data
 #'
 #' @return data.frame Return tweet data frame
@@ -13,7 +8,7 @@ test_that("multiplication works", {
 helper_create_data <- function() {
     data <- read.csv("../../data/brunomars_data.csv")
 }
-tweet_data = helper_create_data()
+tweet_data <- helper_create_data()
 
 #' Tests the plot_timeline function
 #' @param df data.frame Test data.
@@ -31,5 +26,4 @@ test_plot_timeline <- function(data) {
         expect_true("hours"  == rlang::get_expr(timeline_plot$layers[[1]]$mapping$x))
     })
 }
-
 test_plot_timeline(tweet_data)

@@ -1,6 +1,7 @@
 library(twitteR)
 library(tidyverse)
 
+
 #' Get Tweets
 #'
 #' Create a data.frame of a user's tweets given the username/handle.
@@ -27,31 +28,30 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
                         Sys.getenv('TWITTER_ACCS_KEY'),  # access key
                         Sys.getenv('TWITTER_ACCS_SEC'))  # access secret
 
-    n_max <- 3200  # max batch size
-    if (n_tweets < n_max & n_tweets > 0) {
-        latest <- userTimeline(handle, n = n_tweets + 1, includeRts = TRUE, excludeReplies = !include_replies)
-    } else {
-        latest <- userTimeline(handle, n = n_max, includeRts = TRUE, excludeReplies = !include_replies)
-    }
-
-    result <- tibble(purrr::map_df(latest, as.data.frame))
-    oldestID <- min(result$id)
+    # get first batch
+    latest <- userTimeline(handle, n = 200, includeRts = TRUE, excludeReplies = !include_replies)
+    result <- twListToDF(latest)
+    # result <- tibble(purrr::map_df(latest, as.data.frame))
+    oldestID <- min(result$id)  # oldest tweet retrieved so far
 
     # recursively retrieve tweets
+    n_max <- 3200  # max batch size
     while (length(latest) > 0 & nrow(result) < n_tweets) {
         if (n_tweets - nrow(result) < n_max) {
             n_max <- n_tweets - nrow(result)  # tweets to retrieve in final batch
         }
 
         latest <- userTimeline(handle, n = n_max, includeRts = TRUE, excludeReplies = !include_replies, maxID = oldestID)
-        result <- rbind(result, tibble(purrr::map_df(latest, as.data.frame)))  # append results
+        result <- twListToDF(latest)  # append results
+        # result <- rbind(result, tibble(map_df(latest, as.data.frame)))
         oldestID <- result$id[nrow(result)]  # oldest tweet
 
         if (verbose) print(paste(nrow(result), "tweets downloaded..."))
     }
 
     # format output
-    output <- result[1:n_tweets,] %>%
+    if (n_tweets != -1) result <- result[1:n_tweets,]
+    output <- tibble(result) %>%
         mutate(time = created, tweet = text) %>%
         select(time, tweet) %>%
         drop_na()
@@ -75,10 +75,10 @@ plot_timeline <- function(df, time_col){
 
     #extract hour from time column
     tweet <- df %>%
-        mutate(hours=hour(strptime({{ time_col }}, '%m/%d/%Y %H:%M')))
+        mutate(hours=lubridate::hour(strptime({{ time_col }}, '%m/%d/%Y %H:%M')))
 
 
-    timeline_plot <- ggplot(data=tweet_data) +
+    timeline_plot <- ggplot(data=df) +
         geom_line(aes(x=hours), stat = "count") +
         xlab("Hour of day") +
         ylab("Counts of Tweets") +
