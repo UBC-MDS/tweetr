@@ -37,10 +37,10 @@ plot_timeline <- function(df, time_col){
 
     #extract hour from time column
     tweet <- df %>%
-        mutate(hours=hour(strptime({{ time_col }}, '%m/%d/%Y %H:%M')))
+        mutate(hours=lubridate::hour(strptime({{ time_col }}, '%m/%d/%Y %H:%M')))
 
 
-    timeline_plot <- ggplot(data=tweet_data) +
+    timeline_plot <- ggplot2::ggplot(data=tweet_data) +
         geom_line(aes(x=hours), stat = "count") +
         xlab("Hour of day") +
         ylab("Counts of Tweets") +
@@ -55,16 +55,36 @@ plot_timeline <- function(df, time_col){
 #' words in tweets.
 #'
 #' @param df data.frame
-#' @param text_col A column name in data.frame
 #'
 #' @return A chart plotting analysis the most commonly used words.
 #' @export
 #' @examples
-#' plot_hashtags(tweet_data, time)
+#' plot_hashtags(tweet_data)
 
-plot_hashtags <- function(df, text_col){
+plot_hashtags <- function(df){
+
+    hashtags = str_extract_all(df$tweet, "[#][a-zA-Z0-9]+")
+
+    hashtag_data <- data.frame(hashtagwords = '')
+
+    for(words in hashtags){
+        for(word in words){
+            hashtag_data <- rbind(hash_data, word)
+        }
+    }
+    hashtag_data <- hashtag_data  %>% group_by(hashtagwords) %>% summarize(count=n())
+    hashtag_data <- hashtag_data[order(-hashtag_data$count),][1:15,]
+    hashtag_data
+
+    hashtag_plot <- ggplot(data=hashtag_data, aes(x = count, y = reorder(hashtagwords,count))) +
+        geom_bar(stat="identity") +
+        ggtitle("Top 15 Hashtag Words") +
+        theme(text = element_text(size=15)) +
+        theme_bw()
 
 }
+
+
 
 #' sentiment_analysis
 #'

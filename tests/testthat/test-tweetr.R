@@ -11,6 +11,8 @@ test_that("multiplication works", {
 #' @examples
 #' test_plot_timeline()
 helper_create_data <- function() {
+    # Using read.csv seems not working on package check(),
+    # Might consider using return dataframe from get_tweets()
     data <- read.csv("../../data/brunomars_data.csv")
 }
 tweet_data = helper_create_data()
