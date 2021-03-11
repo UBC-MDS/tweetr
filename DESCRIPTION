@@ -2,10 +2,10 @@ Package: tweetr
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
-    person("Huanhuan", "Li", email = "lihuanhuan1003@hotmail.com", role = c("aut", "cre"))
-    person("Yuanzhe(Marco)", "Ma", role = c("aut", "cre"))
-    person("Jared", "Splinter", role = c("aut", "cre"))
-    person("Yuan", "Xiong", role = c("aut", "cre"))   
+    c(person("Huanhuan", "Li", email = "lihuanhuan1003@hotmail.com", role = c("aut", "cre", "ctb", "cph")),
+    person("Yuanzhe(Marco)", "Ma", role = c("aut", "ctb", "cph")),
+    person("Jared", "Splinter", role = c("aut", "ctb", "cph")),
+    person("Yuan", "Xiong", role = c("aut", "ctb", "cph"))) 
 Description: This is a R package for text analysis and sentiment analysis on tweets. The package will allow you to extract tweets from Twitter, visualize user habit on tweet posting, and apply sentiment analysis to the data.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -14,3 +14,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 URL: https://github.com/UBC-MDS/tweetr
 BugReports: https://github.com/UBC-MDS/tweetr/issues
+Config/testthat/edition: 3
+Depends: 
+    tidyverse
+Imports: 
+    lubridate,
+    testthat
