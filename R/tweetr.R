@@ -1,3 +1,4 @@
+
 #' Plot timeline analysis
 #'
 #' Analysis what time of day the tweets occurs and plot the
@@ -7,11 +8,24 @@
 #' @param time_col A column name in data.frame
 #'
 #' @return A chart plotting the counts of tweets versus hours.
-#'
-#' @examples (tweet_data, time)
+#' @export
+#' @examples
+#' plot_timeline(tweet_data, time)
 #'
 plot_timeline <- function(df, time_col){
 
+    #extract hour from time column
+    tweet <- df %>%
+        mutate(hours=hour(strptime({{ time_col }}, '%m/%d/%Y %H:%M')))
+
+
+    timeline_plot <- ggplot(data=tweet_data) +
+        geom_line(aes(x=hours), stat = "count") +
+        xlab("Hour of day") +
+        ylab("Counts of Tweets") +
+        ggtitle("Tweet Timeline Analysis") +
+        theme(text = element_text(size=15)) +
+        theme_bw()
 }
 
 #' Plot hashtag word analysis
@@ -23,9 +37,10 @@ plot_timeline <- function(df, time_col){
 #' @param text_col A column name in data.frame
 #'
 #' @return A chart plotting analysis the most commonly used words.
-#'
-#' @examples (tweet_data, time)
-#'
+#' @export
+#' @examples
+#' plot_hashtags(tweet_data, time)
+
 plot_hashtags <- function(df, text_col){
 
 }
