@@ -42,7 +42,7 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
         }
 
         latest <- userTimeline(handle, n = n_max, includeRts = TRUE, excludeReplies = !include_replies, maxID = oldestID)
-        result <- twListToDF(latest)  # append results
+        result <- rbind(result, twListToDF(latest))  # append results
         # result <- rbind(result, tibble(map_df(latest, as.data.frame)))
         oldestID <- result$id[nrow(result)]  # oldest tweet
 
