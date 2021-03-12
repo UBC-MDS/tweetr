@@ -1,3 +1,17 @@
+#' Helper function to create helper data
+#'
+#' @return data.frame Return tweet data frame
+#'
+#' @export
+#' @examples
+#' helper_create_data()
+helper_create_data <- function() {
+    # Using read.csv seems not working on package check(),
+    # Might consider using return from get_tweets()
+    data <- read.csv("../../data/brunomars_data.csv")
+}
+tweet_data <- helper_create_data()
+
 #' Tests the plot_hashtags function
 #' @param df data.frame Test data.
 #'
@@ -20,7 +34,7 @@ test_plot_hashtags <- function(data) {
 
     # Tests if the output should be a ggplot object.
     test_that("The returned plot should be a ggplot object.", {
-        expect_true(ggplot2::is.ggplot(plot_hashtags(tweet_data)))
+        expect_true(ggplot2::is.ggplot(plot_hashtags(data)))
     })
 
     # Tests that the plot is correct
