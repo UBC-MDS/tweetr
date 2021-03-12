@@ -138,17 +138,27 @@ plot_hashtags <- function(df){
 #' sentiment_analysis
 #'
 #' This function takes a tweet dataframe as input. The input dataframe should contain a column named 'tweet' that contains tweet text information.
-#' The function analyzes the sentiment of each tweet and categorize them into 'positive', 'negative' and 'netrual'. The sentiment information will be added as a new
-#' column to the input dataframe and saved as a new dataframe (output).
+#' The function cleans the text inn 'tweet' column by removing http component, punctuation, end words, reduce the letters to lowercase and word stemming. 
+#' Then the function matches each word to the sentiment 'positive' or 'negative' using the tidytext 'Bing' lexicons. And output is a dataframe that contains
+#' words used in the tweet texts and assign each word with either 'positive' or 'negative' sentiment plus sorting by the numbers of appearence of that word.
 #'
 #' @param tweet data.frame
 #'
-#' @return tweet_senti data.frame
+#' @return tweet_result data.frame
 #'
 #' @examples
 #' sentiment_analysis(tweet_username_123)
-sentiment_analysis <- function(tweet) {
-
+sentiment_analysis <- function(tweet){
+  tweet$clean_text <- gsub("http[[:alnum:][:punct:]]*", "", tweet$tweet) 
+  sentiment_result <- tweet %>%
+  select(clean_text) %>%
+  unnest_tokens(word, clean_text) %>% 
+  anti_join(stop_words) %>% 
+  inner_join(get_sentiments("bing")) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  ungroup()
+  
+  return(sentiment_result)
 }
 
 #' Visualize Sentiment Analysis
