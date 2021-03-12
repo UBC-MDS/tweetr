@@ -4,12 +4,10 @@
 \alias{plot_hashtags}
 \title{Plot hashtag word analysis}
 \usage{
-plot_hashtags(df, text_col)
+plot_hashtags(df)
 }
 \arguments{
 \item{df}{data.frame}
-
-\item{text_col}{A column name in data.frame}
 }
 \value{
 A chart plotting analysis the most commonly used words.
@@ -19,5 +17,5 @@ A chart plotting analysis result of the most commonly used
 words in tweets.
 }
 \examples{
-plot_hashtags(tweet_data, time)
+plot_hashtags(tweet_data)
 }

@@ -1,3 +1,9 @@
+
+# library(twitteR)
+# library(tidyverse)
+# library(dplyr)
+# library(tidytext)
+
 #' Get Tweets
 #'
 #' Create a data.frame of a user's tweets given the username/handle.
@@ -66,13 +72,15 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
 #' plot_timeline(tweet_data, time)
 #'
 plot_timeline <- function(df, time_col){
+    if (!is.data.frame(df)) {
+        stop("The argument 'df' should be a dataframe.")
+    }
 
     #extract hour from time column
     tweet <- df %>%
         mutate(hours=lubridate::hour(strptime({{ time_col }}, '%m/%d/%Y %H:%M')))
 
-
-    timeline_plot <- ggplot(data=df) +
+    timeline_plot <- ggplot(data=tweet) +
         geom_line(aes(x=hours), stat = "count") +
         xlab("Hour of day") +
         ylab("Counts of Tweets") +
@@ -87,31 +95,70 @@ plot_timeline <- function(df, time_col){
 #' words in tweets.
 #'
 #' @param df data.frame
-#' @param text_col A column name in data.frame
 #'
 #' @return A chart plotting analysis the most commonly used words.
 #' @export
 #' @examples
-#' plot_hashtags(tweet_data, time)
+#' plot_hashtags(tweet_data)
 
-plot_hashtags <- function(df, text_col){
+plot_hashtags <- function(df){
+    if (!is.data.frame(df)) {
+        stop("The argument 'df' should be a dataframe.")
+    }
+
+    # extract hashtag words as a list
+    hashtags = str_extract_all(df$tweet, "[#][a-zA-Z0-9]+")
+
+    # initial a dataframe to store hashtags
+    hashtag_data <- data.frame(hashtagwords = '')
+    for(words in hashtags){
+        for(word in words){
+            hashtag_data <- rbind(hashtag_data, word)
+        }
+    }
+    # count hashtag words and get the top 15 frequent word
+    hashtag_data <- hashtag_data  %>% group_by(hashtagwords) %>% summarize(count=n())
+    if(nrow(hashtag_data) > 15){
+        hashtag_data <- hashtag_data[order(-hashtag_data$count),][1:15,]
+    }
+
+    # Plot hashtag words
+    hashtag_plot <- ggplot(data=hashtag_data, aes(x = count, y = reorder(hashtagwords,count))) +
+        geom_bar(stat="identity") +
+        ggtitle("Top 15 Hashtag Words") +
+        xlab("Hashtags") +
+        ylab("Counts of Hashtags") +
+        theme(text = element_text(size=15)) +
+        theme_bw()
 
 }
+
+
 
 #' sentiment_analysis
 #'
 #' This function takes a tweet dataframe as input. The input dataframe should contain a column named 'tweet' that contains tweet text information.
-#' The function analyzes the sentiment of each tweet and categorize them into 'positive', 'negative' and 'netrual'. The sentiment information will be added as a new
-#' column to the input dataframe and saved as a new dataframe (output).
+#' The function cleans the text inn 'tweet' column by removing http component, punctuation, end words, reduce the letters to lowercase and word stemming.
+#' Then the function matches each word to the sentiment 'positive' or 'negative' using the tidytext 'Bing' lexicons. And output is a dataframe that contains
+#' words used in the tweet texts and assign each word with either 'positive' or 'negative' sentiment plus sorting by the numbers of appearence of that word.
 #'
 #' @param tweet data.frame
 #'
-#' @return tweet_senti data.frame
+#' @return tweet_result data.frame
 #'
 #' @examples
 #' sentiment_analysis(tweet_username_123)
-sentiment_analysis <- function(tweet) {
+sentiment_analysis <- function(tweet){
+  tweet$clean_text <- gsub("http[[:alnum:][:punct:]]*", "", tweet$tweet)
+  sentiment_result <- tweet %>%
+  select(clean_text) %>%
+  unnest_tokens(word, clean_text) %>%
+  anti_join(stop_words) %>%
+  inner_join(get_sentiments("bing")) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  ungroup()
 
+  return(sentiment_result)
 }
 
 #' Visualize Sentiment Analysis
