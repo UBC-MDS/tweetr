@@ -1,5 +1,7 @@
 library(twitteR)
 library(tidyverse)
+library(dplyr)
+library(tidytext)
 
 
 #' Get Tweets
