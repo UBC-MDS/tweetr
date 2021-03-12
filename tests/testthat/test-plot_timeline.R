@@ -20,8 +20,23 @@ tweet_data <- helper_create_data()
 #' @examples
 #' test_plot_timeline()
 test_plot_timeline <- function(data) {
-    # Test the input parameter is valid
-    # TODO
+    # Test the input parameter
+    test_that(
+        "Corresponding error message should be expected if the `df` argument is not a dataframe", {
+            expect_error(plot_timeline("tweet_data"),
+                         regexp = "The argument 'df' should be a dataframe.")
+            expect_error(plot_timeline(123),
+                         regexp = "The argument 'df' should be a dataframe.")
+            expect_error(plot_timeline(c(1, 2, 3)),
+                         regexp = "The argument 'df' should be a dataframe.")
+        })
+    test_that(
+        "Corresponding error message should be expected if the `time_col` argument is not a column name", {
+            expect_error(plot_timeline(data, date_time),
+                         regexp = "object 'date_time' not found")
+        })
+
+
     # Tests that the plot is correct
     test_that('Plot should use geom_line and map x to x-axis.', {
         timeline_plot <- plot_timeline(data, time)

@@ -72,6 +72,9 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
 #' plot_timeline(tweet_data, time)
 #'
 plot_timeline <- function(df, time_col){
+    if (!is.data.frame(df)) {
+        stop("The argument 'df' should be a dataframe.")
+    }
 
     #extract hour from time column
     tweet <- df %>%
@@ -99,6 +102,9 @@ plot_timeline <- function(df, time_col){
 #' plot_hashtags(tweet_data)
 
 plot_hashtags <- function(df){
+    if (!is.data.frame(df)) {
+        stop("The argument 'df' should be a dataframe.")
+    }
 
     # extract hashtag words as a list
     hashtags = str_extract_all(df$tweet, "[#][a-zA-Z0-9]+")
@@ -112,8 +118,9 @@ plot_hashtags <- function(df){
     }
     # count hashtag words and get the top 15 frequent word
     hashtag_data <- hashtag_data  %>% group_by(hashtagwords) %>% summarize(count=n())
-    hashtag_data <- hashtag_data[order(-hashtag_data$count),][1:15,]
-    hashtag_data
+    if(nrow(hashtag_data) > 15){
+        hashtag_data <- hashtag_data[order(-hashtag_data$count),][1:15,]
+    }
 
     # Plot hashtag words
     hashtag_plot <- ggplot(data=hashtag_data, aes(x = count, y = reorder(hashtagwords,count))) +
