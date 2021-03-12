@@ -4,7 +4,11 @@
 \alias{get_tweets}
 \title{Get Tweets}
 \usage{
+<<<<<<< HEAD
 get_tweets(handle, n_tweets = -1, include_replies = FALSE, verbose = FALSE)
+=======
+get_tweets(handle, n_tweets = -1, include_replies = FALSE, verbose = TRUE)
+>>>>>>> master
 }
 \arguments{
 \item{handle}{character, the username to query}
