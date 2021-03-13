@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 .Rproj.user
 .Rhistory
 .Rdata
-.httr-oauth
 .DS_Store
 .Renviron
 .httr-oauth  #Twitter OAuth Cache
