@@ -20,6 +20,8 @@
 #' @return data.frame
 #' @export
 #'
+#' @importFrom magrittr %>%
+#' @import twitteR tidyverse dplyr
 #' @examples
 #' get_tweets('@BrunoMars', n_tweets=100)
 get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose = TRUE) {
@@ -68,6 +70,8 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
 #'
 #' @return A chart plotting the counts of tweets versus hours.
 #' @export
+#'
+#' @import ggplot2
 #' @examples
 #' plot_timeline(tweet_data, time)
 #'
@@ -98,6 +102,8 @@ plot_timeline <- function(df, time_col){
 #'
 #' @return A chart plotting analysis the most commonly used words.
 #' @export
+#'
+#' @import ggplot2
 #' @examples
 #' plot_hashtags(tweet_data)
 
@@ -133,8 +139,6 @@ plot_hashtags <- function(df){
 
 }
 
-
-
 #' sentiment_analysis
 #'
 #' This function takes a tweet dataframe as input. The input dataframe should contain a column named 'tweet' that contains tweet text information.
@@ -146,6 +150,8 @@ plot_hashtags <- function(df){
 #'
 #' @return tweet_result data.frame
 #'
+#' @importFrom graphics text
+#' @importFrom stats reorder time
 #' @examples
 #' sentiment_analysis(tweet_username_123)
 sentiment_analysis <- function(tweet){

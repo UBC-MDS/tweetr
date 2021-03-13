@@ -20,4 +20,8 @@ Depends:
 Imports: 
     lubridate,
     testthat,
-    ggplot2
+    ggplot2,
+    twitteR,
+    dplyr,
+    tidytext,
+    magrittr
