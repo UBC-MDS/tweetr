@@ -25,5 +25,5 @@ Imports:
     twitteR,
     dplyr,
     tidytext,
-    magrittr
+    magrittr,
     cowplot

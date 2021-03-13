@@ -83,7 +83,7 @@ plot_timeline <- function(df, time_col){
 
     #extract hour from time column
     tweet <- df %>%
-        mutate(hours=lubridate::hour(strptime({{ time_col }}, '%m/%d/%Y %H:%M')))
+        mutate(hours=lubridate::hour( {{time_col}} ))
 
     timeline_plot <- ggplot(data=tweet) +
         geom_line(aes(x=hours), stat = "count") +
@@ -92,6 +92,8 @@ plot_timeline <- function(df, time_col){
         ggtitle("Tweet Timeline Analysis") +
         theme(text = element_text(size=15)) +
         theme_bw()
+
+    return(timeline_plot)
 }
 
 #' Plot hashtag word analysis
@@ -137,7 +139,8 @@ plot_hashtags <- function(df){
         ylab("Counts of Hashtags") +
         theme(text = element_text(size=15)) +
         theme_bw()
-
+    
+    return(hashtag_plot)
 }
 
 #' sentiment_analysis
