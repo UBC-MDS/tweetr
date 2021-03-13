@@ -21,4 +21,5 @@ Depends:
 Imports: 
     lubridate,
     testthat,
-    ggplot2
+    ggplot2,
+    cowplot
