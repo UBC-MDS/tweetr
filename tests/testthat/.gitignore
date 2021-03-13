@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .Rproj.user
 .Rhistory
 .Rdata
@@ -5,3 +6,6 @@
 .DS_Store
 .Renviron
 .httr-oauth  #Twitter OAuth Cache
+=======
+.httr-oauth
+>>>>>>> 55fbbe763eec4f4616c1f1a0e1697ac69ab43c48
