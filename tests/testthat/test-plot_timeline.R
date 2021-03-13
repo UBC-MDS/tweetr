@@ -5,12 +5,13 @@
 #' @export
 #' @examples
 #' helper_create_data()
-helper_create_data <- function() {
-    # Using read.csv seems not working on package check(),
-    # Might consider using return from get_tweets()
-    data <- read.csv("../../data/brunomars_data.csv")
-}
-tweet_data <- helper_create_data()
+#helper_create_data <- function() {
+#    # Using read.csv seems not working on package check(),
+#    # Might consider using return from get_tweets()
+#}
+#tweet_data <- helper_create_data()
+
+tweet_data <- tweetr::brunomars_tweet
 
 #' Tests the plot_timeline function
 #' @param df data.frame Test data.

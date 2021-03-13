@@ -3,6 +3,7 @@
 # library(tidyverse)
 # library(dplyr)
 # library(tidytext)
+# library(cowplot)
 
 #' Get Tweets
 #'
@@ -173,12 +174,98 @@ sentiment_analysis <- function(tweet){
 #' a visualization of user's tweets with sentimental analysis.
 #'
 #' @param sentiment_df A DataFrame containing sentiment column from sentiment_analysis
-#' @param plot_type An optional string for which chart to return. Options are ("Standard", "Stacked", "Separate")
+#' @param plot_type An optional string for which chart to return. Options are ("Standard", "Separate")
 #'
 #' @return A bar chart containing most common words in tweets, colour coded by sentiment.
 #' @export
 #'
-#' @examples visualize_sentiments(sentiment_df, plot_type = "Stacked")
+#' @examples visualize_sentiments(sentiment_df, plot_type = "Separate")
 visualize_sentiments <- function(sentiment_df, plot_type = "Standard") {
 
+  #Checks
+
+  if (!is.data.frame(sentiment_df)){
+    stop("The input sentiment_df should be a dataframe, did you use output from sentiment_analysis?")
+  }
+
+  options <- c("Standard", "Separate")
+
+  if (!(plot_type %in% options)){
+   stop("Argument plot_type is invalid: it must be one of 'Standard' or 'Separate'")
+  }
+
+  if (!("sentiment" %in% colnames(sentiment_df))){
+  stop("column name sentiment is not in sentiment_df, did you use output from sentiment_analysis?")
+  }
+
+
+  #Get top results
+  top_positive <- sentiment_df %>%
+                  filter(sentiment == 'positive') %>%
+                  slice(1:10)
+
+  top_negative <- sentiment_df %>%
+                  filter(sentiment == 'negative') %>%
+                  slice(1:10)
+
+
+  #used for plotting
+  colors <- c("positive" = "blue", "negative" = "red")
+
+  if (plot_type == 'Standard'){
+
+  #bind top results
+  top_senti <- rbind(top_positive, top_negative)
+
+
+  #plot resutlt
+  plot <- ggplot(top_senti, aes(x = n, y = reorder(word,n), fill = sentiment))+
+    geom_bar(stat = "identity")+
+    xlab('Number of Occurences') +
+    ylab("Word")+
+    ggtitle("Most Common Words by Sentiment")  +
+    theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+          axis.text.x = element_text(size = 10, angle = 0),
+          axis.text.y = element_text(size = 12, angle = 0),
+          axis.title = element_text(size = 14))+
+    labs(fill = "Sentiment")+
+    scale_fill_manual(values = colors)
+
+  }
+
+
+  if (plot_type == 'Separate'){
+
+  positive_plot <- ggplot(top_positive, aes(x = n, y = reorder(word,n), fill = sentiment))+
+  geom_bar(stat = "identity")+
+  xlab('Number of Occurences') +
+  ylab("Word")+
+  ggtitle("Most Common Positive Words")  +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+        axis.text.x = element_text(size = 10, angle = 0),
+        axis.text.y = element_text(size = 12, angle = 0),
+        axis.title = element_text(size = 14),
+        legend.position = 'none')+
+  scale_fill_manual(values = colors)
+
+  negative_plot <- ggplot(top_negative, aes(x = n, y = reorder(word,n), fill = sentiment))+
+  geom_bar(stat = "identity")+
+  xlab('Number of Occurences') +
+  ylab("Word")+
+  ggtitle("Most Common Negative Words")  +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+        axis.text.x = element_text(size = 10, angle = 0),
+        axis.text.y = element_text(size = 12, angle = 0),
+        axis.title = element_text(size = 14),
+        legend.position = 'none')+
+  scale_fill_manual(values = colors)
+
+  plot <- plot_grid(positive_plot, negative_plot)
+  }
+
+return(plot)
 }
+
+# get data for test
+#brunomars_tweet <- get_tweets('@BrunoMars', n_tweets=500)
+#usethis::use_data(brunomars_tweet)
