@@ -9,7 +9,7 @@ visualize_sentiments(sentiment_df, plot_type = "Standard")
 \arguments{
 \item{sentiment_df}{A DataFrame containing sentiment column from sentiment_analysis}
 
-\item{plot_type}{An optional string for which chart to return. Options are ("Standard", "Stacked", "Separate")}
+\item{plot_type}{An optional string for which chart to return. Options are ("Standard", "Separate")}
 }
 \value{
 A bar chart containing most common words in tweets, colour coded by sentiment.
@@ -19,5 +19,5 @@ Takes in the output of sentiment_analysis and creates
 a visualization of user's tweets with sentimental analysis.
 }
 \examples{
-visualize_sentiments(sentiment_df, plot_type = "Stacked")
+visualize_sentiments(sentiment_df, plot_type = "Separate")
 }

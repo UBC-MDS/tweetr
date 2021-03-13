@@ -140,7 +140,7 @@ plot_hashtags <- function(df){
 #' sentiment_analysis
 #'
 #' This function takes a tweet dataframe as input. The input dataframe should contain a column named 'tweet' that contains tweet text information.
-#' The function cleans the text inn 'tweet' column by removing http component, punctuation, end words, reduce the letters to lowercase and word stemming. 
+#' The function cleans the text inn 'tweet' column by removing http component, punctuation, end words, reduce the letters to lowercase and word stemming.
 #' Then the function matches each word to the sentiment 'positive' or 'negative' using the tidytext 'Bing' lexicons. And output is a dataframe that contains
 #' words used in the tweet texts and assign each word with either 'positive' or 'negative' sentiment plus sorting by the numbers of appearence of that word.
 #'
@@ -151,15 +151,15 @@ plot_hashtags <- function(df){
 #' @examples
 #' sentiment_analysis(tweet_username_123)
 sentiment_analysis <- function(tweet){
-  tweet$clean_text <- gsub("http[[:alnum:][:punct:]]*", "", tweet$tweet) 
+  tweet$clean_text <- gsub("http[[:alnum:][:punct:]]*", "", tweet$tweet)
   sentiment_result <- tweet %>%
   select(clean_text) %>%
-  unnest_tokens(word, clean_text) %>% 
-  anti_join(stop_words) %>% 
+  unnest_tokens(word, clean_text) %>%
+  anti_join(stop_words) %>%
   inner_join(get_sentiments("bing")) %>%
   count(word, sentiment, sort = TRUE) %>%
   ungroup()
-  
+
   return(sentiment_result)
 }
 
@@ -176,43 +176,43 @@ sentiment_analysis <- function(tweet){
 #'
 #' @examples visualize_sentiments(sentiment_df, plot_type = "Separate")
 visualize_sentiments <- function(sentiment_df, plot_type = "Standard") {
-  
+
   #Checks
-  
+
   if (!is.data.frame(sentiment_df)){
     stop("The input sentiment_df should be a dataframe, did you use output from sentiment_analysis?")
   }
-  
+
   options <- c("Standard", "Separate")
 
   if (!(plot_type %in% options)){
    stop("Argument plot_type is invalid: it must be one of 'Standard' or 'Separate'")
   }
-  
+
   if (!("sentiment" %in% colnames(sentiment_df))){
   stop("column name sentiment is not in sentiment_df, did you use output from sentiment_analysis?")
   }
-  
-  
+
+
   #Get top results
-  top_positive <- sentiment_df %>% 
-                  filter(sentiment == 'positive') %>% 
+  top_positive <- sentiment_df %>%
+                  filter(sentiment == 'positive') %>%
                   slice(1:10)
 
-  top_negative <- sentiment_df %>% 
-                  filter(sentiment == 'negative') %>% 
+  top_negative <- sentiment_df %>%
+                  filter(sentiment == 'negative') %>%
                   slice(1:10)
-                  
-                  
+
+
   #used for plotting
   colors <- c("positive" = "blue", "negative" = "red")
 
   if (plot_type == 'Standard'){
-  
+
   #bind top results
   top_senti <- rbind(top_positive, top_negative)
-  
-  
+
+
   #plot resutlt
   plot <- ggplot(top_senti, aes(x = n, y = reorder(word,n), fill = sentiment))+
     geom_bar(stat = "identity")+
@@ -225,12 +225,12 @@ visualize_sentiments <- function(sentiment_df, plot_type = "Standard") {
           axis.title = element_text(size = 14))+
     labs(fill = "Sentiment")+
     scale_fill_manual(values = colors)
-  
+
   }
-  
-  
+
+
   if (plot_type == 'Separate'){
-  
+
   positive_plot <- ggplot(top_positive, aes(x = n, y = reorder(word,n), fill = sentiment))+
   geom_bar(stat = "identity")+
   xlab('Number of Occurences') +
@@ -242,7 +242,7 @@ visualize_sentiments <- function(sentiment_df, plot_type = "Standard") {
         axis.title = element_text(size = 14),
         legend.position = 'none')+
   scale_fill_manual(values = colors)
-  
+
   negative_plot <- ggplot(top_negative, aes(x = n, y = reorder(word,n), fill = sentiment))+
   geom_bar(stat = "identity")+
   xlab('Number of Occurences') +
@@ -253,10 +253,14 @@ visualize_sentiments <- function(sentiment_df, plot_type = "Standard") {
         axis.text.y = element_text(size = 12, angle = 0),
         axis.title = element_text(size = 14),
         legend.position = 'none')+
-  scale_fill_manual(values = colors) 
-  
+  scale_fill_manual(values = colors)
+
   plot <- plot_grid(positive_plot, negative_plot)
   }
-  
+
 return(plot)
 }
+
+# get data for test
+#brunomars_tweet <- get_tweets('@BrunoMars', n_tweets=500)
+#usethis::use_data(brunomars_tweet)

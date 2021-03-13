@@ -10,12 +10,13 @@ sentiment_analysis(tweet)
 \item{tweet}{data.frame}
 }
 \value{
-tweet_senti data.frame
+tweet_result data.frame
 }
 \description{
 This function takes a tweet dataframe as input. The input dataframe should contain a column named 'tweet' that contains tweet text information.
-The function analyzes the sentiment of each tweet and categorize them into 'positive', 'negative' and 'netrual'. The sentiment information will be added as a new
-column to the input dataframe and saved as a new dataframe (output).
+The function cleans the text inn 'tweet' column by removing http component, punctuation, end words, reduce the letters to lowercase and word stemming.
+Then the function matches each word to the sentiment 'positive' or 'negative' using the tidytext 'Bing' lexicons. And output is a dataframe that contains
+words used in the tweet texts and assign each word with either 'positive' or 'negative' sentiment plus sorting by the numbers of appearence of that word.
 }
 \examples{
 sentiment_analysis(tweet_username_123)
