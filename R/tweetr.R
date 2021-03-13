@@ -4,7 +4,6 @@ library(dplyr)
 library(tidytext)
 library(cowplot)
 
-
 #' Get Tweets
 #'
 #' Create a data.frame of a user's tweets given the username/handle.
