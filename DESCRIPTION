@@ -22,4 +22,8 @@ Imports:
     lubridate,
     testthat,
     ggplot2,
+    twitteR,
+    dplyr,
+    tidytext,
+    magrittr
     cowplot

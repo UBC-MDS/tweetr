@@ -1,8 +1,9 @@
-library(twitteR)
-library(tidyverse)
-library(dplyr)
-library(tidytext)
-library(cowplot)
+
+# library(twitteR)
+# library(tidyverse)
+# library(dplyr)
+# library(tidytext)
+# library(cowplot)
 
 #' Get Tweets
 #'
@@ -20,20 +21,21 @@ library(cowplot)
 #' @return data.frame
 #' @export
 #'
+#' @importFrom magrittr %>%
+#' @import twitteR tidyverse dplyr
 #' @examples
 #' get_tweets('@BrunoMars', n_tweets=100)
 get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose = TRUE) {
 
     # OAuth connection to Twitter API
-    setup_twitter_oauth(Sys.getenv('TWITTER_CONS_KEY'),  # consumer key
-                        Sys.getenv('TWITTER_CONS_SEC'),  # consumer secret
-                        Sys.getenv('TWITTER_ACCS_KEY'),  # access key
-                        Sys.getenv('TWITTER_ACCS_SEC'))  # access secret
+    twitteR::setup_twitter_oauth(Sys.getenv('TWITTER_CONS_KEY'),  # consumer key
+                                 Sys.getenv('TWITTER_CONS_SEC'),  # consumer secret
+                                 Sys.getenv('TWITTER_ACCS_KEY'),  # access key
+                                 Sys.getenv('TWITTER_ACCS_SEC'))  # access secret
 
     # get first batch
-    latest <- userTimeline(handle, n = 200, includeRts = TRUE, excludeReplies = !include_replies)
-    result <- twListToDF(latest)
-    # result <- tibble(purrr::map_df(latest, as.data.frame))
+    latest <- twitteR::userTimeline(handle, n = 200, includeRts = TRUE, excludeReplies = !include_replies)
+    result <- twitteR::twListToDF(latest)
     oldestID <- min(result$id)  # oldest tweet retrieved so far
 
     # recursively retrieve tweets
@@ -43,9 +45,8 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
             n_max <- n_tweets - nrow(result)  # tweets to retrieve in final batch
         }
 
-        latest <- userTimeline(handle, n = n_max, includeRts = TRUE, excludeReplies = !include_replies, maxID = oldestID)
+        latest <- twitteR::userTimeline(handle, n = n_max, includeRts = TRUE, excludeReplies = !include_replies, maxID = oldestID)
         result <- rbind(result, twListToDF(latest))  # append results
-        # result <- rbind(result, tibble(map_df(latest, as.data.frame)))
         oldestID <- result$id[nrow(result)]  # oldest tweet
 
         if (verbose) print(paste(nrow(result), "tweets downloaded..."))
@@ -70,6 +71,8 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
 #'
 #' @return A chart plotting the counts of tweets versus hours.
 #' @export
+#'
+#' @import ggplot2
 #' @examples
 #' plot_timeline(tweet_data, time)
 #'
@@ -100,6 +103,8 @@ plot_timeline <- function(df, time_col){
 #'
 #' @return A chart plotting analysis the most commonly used words.
 #' @export
+#'
+#' @import ggplot2
 #' @examples
 #' plot_hashtags(tweet_data)
 
@@ -135,8 +140,6 @@ plot_hashtags <- function(df){
 
 }
 
-
-
 #' sentiment_analysis
 #'
 #' This function takes a tweet dataframe as input. The input dataframe should contain a column named 'tweet' that contains tweet text information.
@@ -148,6 +151,8 @@ plot_hashtags <- function(df){
 #'
 #' @return tweet_result data.frame
 #'
+#' @importFrom graphics text
+#' @importFrom stats reorder time
 #' @examples
 #' sentiment_analysis(tweet_username_123)
 sentiment_analysis <- function(tweet){
