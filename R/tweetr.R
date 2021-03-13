@@ -2,6 +2,7 @@ library(twitteR)
 library(tidyverse)
 library(dplyr)
 library(tidytext)
+library(cowplot)
 
 
 #' Get Tweets
