@@ -26,6 +26,18 @@
 #' @examples
 #' get_tweets('@BrunoMars', n_tweets=100)
 get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose = TRUE) {
+    if (!is.character(handle)) {
+      stop("The argument 'handle' should be a string.")
+    }
+    if (!is.numeric(n_tweets) | n_tweets%%1 != 0 | n_tweets < -1) {
+      stop("The argument 'n_tweets' is invalid! Must be an integer > 0 or -1 (all).")
+    }
+    if (!is.logical(include_replies)) {
+      stop("The argument 'include_replies' is invalid!")
+    }
+    if (!is.logical(verbose)) {
+      stop("The argument 'verbose' is invalid! Must be an integer > 0 or -1 (all).")
+    }
 
     # OAuth connection to Twitter API
     twitteR::setup_twitter_oauth(Sys.getenv('TWITTER_CONS_KEY'),  # consumer key
@@ -74,6 +86,7 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
 #'
 #' @import ggplot2
 #' @examples
+#' tweet_data = tweetr::brunomars_data
 #' plot_timeline(tweet_data, time)
 #'
 plot_timeline <- function(df, time_col){
@@ -108,8 +121,8 @@ plot_timeline <- function(df, time_col){
 #'
 #' @import ggplot2
 #' @examples
+#' tweet_data = tweetr::brunomars_data
 #' plot_hashtags(tweet_data)
-
 plot_hashtags <- function(df){
     if (!is.data.frame(df)) {
         stop("The argument 'df' should be a dataframe.")
@@ -139,7 +152,7 @@ plot_hashtags <- function(df){
         ylab("Counts of Hashtags") +
         theme(text = element_text(size=15)) +
         theme_bw()
-    
+
     return(hashtag_plot)
 }
 
@@ -154,6 +167,7 @@ plot_hashtags <- function(df){
 #'
 #' @return tweet_result data.frame
 #'
+#' @import tidytext
 #' @importFrom graphics text
 #' @importFrom stats reorder time
 #' @examples

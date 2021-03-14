@@ -19,6 +19,7 @@ Analysis what time of day the tweets occurs and plot the
 counts of tweets versus hours.
 }
 \examples{
+tweet_data = tweetr::brunomars_data
 plot_timeline(tweet_data, time)
 
 }

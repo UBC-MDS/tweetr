@@ -17,5 +17,6 @@ A chart plotting analysis result of the most commonly used
 words in tweets.
 }
 \examples{
+tweet_data = tweetr::brunomars_data
 plot_hashtags(tweet_data)
 }
