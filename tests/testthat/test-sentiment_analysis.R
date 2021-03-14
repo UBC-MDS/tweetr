@@ -18,5 +18,6 @@ test_sentiment_analysis <- function() {
         expect_equal(class(output$sentiment), 'character')
         expect_equal(class(output$n), 'integer')
     })
+}
 
 test_sentiment_analysis()
