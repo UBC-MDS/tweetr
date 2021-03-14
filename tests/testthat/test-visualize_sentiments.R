@@ -1,5 +1,7 @@
 
-data <- get_tweets('@pytweetGod')
+#data <- get_tweets('@pytweetGod')
+data <- tweetr::brunomars_tweet
+#usethis::use_data(data)
 sentiment <- sentiment_analysis(data)
 
 #' Tests for visualize_sentiments
