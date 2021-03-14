@@ -84,7 +84,9 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
 #' @return A chart plotting the counts of tweets versus hours.
 #' @export
 #'
-#' @import ggplot2
+#' @import ggplot2 tidyverse lubridate
+#' @import magrittr %>%
+#'
 #' @examples
 #' tweet_data = tweetr::brunomars_data
 #' plot_timeline(tweet_data, time)
@@ -96,7 +98,7 @@ plot_timeline <- function(df, time_col){
 
     #extract hour from time column
     tweet <- df %>%
-        mutate(hours=lubridate::hour( {{time_col}} ))
+        mutate(hours_haha = hour( {{time_col}} ))
 
     timeline_plot <- ggplot(data=tweet) +
         geom_line(aes(x=hours), stat = "count") +
@@ -120,6 +122,8 @@ plot_timeline <- function(df, time_col){
 #' @export
 #'
 #' @import ggplot2
+#' @importFrom magrittr %>%
+#'
 #' @examples
 #' tweet_data = tweetr::brunomars_data
 #' plot_hashtags(tweet_data)
@@ -170,19 +174,20 @@ plot_hashtags <- function(df){
 #' @import tidytext
 #' @importFrom graphics text
 #' @importFrom stats reorder time
+#'
 #' @examples
 #' sentiment_analysis(tweet_username_123)
 sentiment_analysis <- function(tweet){
-  tweet$clean_text <- gsub("http[[:alnum:][:punct:]]*", "", tweet$tweet)
-  sentiment_result <- tweet %>%
-  select(clean_text) %>%
-  tidytext::unnest_tokens(word, clean_text) %>%
-  anti_join(tidytext::stop_words) %>%
-  inner_join(tidytext::get_sentiments("bing")) %>%
-  count(word, sentiment, sort = TRUE) %>%
-  ungroup()
+    tweet$clean_text <- gsub("http[[:alnum:][:punct:]]*", "", tweet$tweet)
+    sentiment_result <- tweet %>%
+    select(clean_text) %>%
+    tidytext::unnest_tokens(word, clean_text) %>%
+    anti_join(tidytext::stop_words) %>%
+    inner_join(tidytext::get_sentiments("bing")) %>%
+    count(word, sentiment, sort = TRUE) %>%
+    ungroup()
 
-  return(sentiment_result)
+    return(sentiment_result)
 }
 
 #' Visualize Sentiment Analysis
@@ -199,88 +204,88 @@ sentiment_analysis <- function(tweet){
 #' @examples visualize_sentiments(sentiment_df, plot_type = "Separate")
 visualize_sentiments <- function(sentiment_df, plot_type = "Standard") {
 
-  #Checks
+    #Checks
 
-  if (!is.data.frame(sentiment_df)){
-    stop("The input sentiment_df should be a dataframe, did you use output from sentiment_analysis?")
-  }
+    if (!is.data.frame(sentiment_df)){
+      stop("The input sentiment_df should be a dataframe, did you use output from sentiment_analysis?")
+    }
 
-  options <- c("Standard", "Separate")
+    options <- c("Standard", "Separate")
 
-  if (!(plot_type %in% options)){
-   stop("Argument plot_type is invalid: it must be one of 'Standard' or 'Separate'")
-  }
+    if (!(plot_type %in% options)){
+     stop("Argument plot_type is invalid: it must be one of 'Standard' or 'Separate'")
+    }
 
-  if (!("sentiment" %in% colnames(sentiment_df))){
-  stop("column name sentiment is not in sentiment_df, did you use output from sentiment_analysis?")
-  }
-
-
-  #Get top results
-  top_positive <- sentiment_df %>%
-                  filter(sentiment == 'positive') %>%
-                  slice(1:10)
-
-  top_negative <- sentiment_df %>%
-                  filter(sentiment == 'negative') %>%
-                  slice(1:10)
+    if (!("sentiment" %in% colnames(sentiment_df))){
+    stop("column name sentiment is not in sentiment_df, did you use output from sentiment_analysis?")
+    }
 
 
-  #used for plotting
-  colors <- c("positive" = "blue", "negative" = "red")
+    #Get top results
+    top_positive <- sentiment_df %>%
+                    filter(sentiment == 'positive') %>%
+                    slice(1:10)
 
-  if (plot_type == 'Standard'){
+    top_negative <- sentiment_df %>%
+                    filter(sentiment == 'negative') %>%
+                    slice(1:10)
 
-  #bind top results
-  top_senti <- rbind(top_positive, top_negative)
+
+    #used for plotting
+    colors <- c("positive" = "blue", "negative" = "red")
+
+    if (plot_type == 'Standard'){
+
+    #bind top results
+    top_senti <- rbind(top_positive, top_negative)
 
 
-  #plot resutlt
-  plot <- ggplot(top_senti, aes(x = n, y = reorder(word,n), fill = sentiment))+
+    #plot resutlt
+    plot <- ggplot(top_senti, aes(x = n, y = reorder(word,n), fill = sentiment))+
+      geom_bar(stat = "identity")+
+      xlab('Number of Occurences') +
+      ylab("Word")+
+      ggtitle("Most Common Words by Sentiment")  +
+      theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+            axis.text.x = element_text(size = 10, angle = 0),
+            axis.text.y = element_text(size = 12, angle = 0),
+            axis.title = element_text(size = 14))+
+      labs(fill = "Sentiment")+
+      scale_fill_manual(values = colors)
+
+    }
+
+
+    if (plot_type == 'Separate'){
+
+    positive_plot <- ggplot(top_positive, aes(x = n, y = reorder(word,n), fill = sentiment))+
     geom_bar(stat = "identity")+
     xlab('Number of Occurences') +
     ylab("Word")+
-    ggtitle("Most Common Words by Sentiment")  +
+    ggtitle("Most Common Positive Words")  +
     theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
           axis.text.x = element_text(size = 10, angle = 0),
           axis.text.y = element_text(size = 12, angle = 0),
-          axis.title = element_text(size = 14))+
-    labs(fill = "Sentiment")+
+          axis.title = element_text(size = 14),
+          legend.position = 'none')+
     scale_fill_manual(values = colors)
 
-  }
+    negative_plot <- ggplot(top_negative, aes(x = n, y = reorder(word,n), fill = sentiment))+
+    geom_bar(stat = "identity")+
+    xlab('Number of Occurences') +
+    ylab("Word")+
+    ggtitle("Most Common Negative Words")  +
+    theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+          axis.text.x = element_text(size = 10, angle = 0),
+          axis.text.y = element_text(size = 12, angle = 0),
+          axis.title = element_text(size = 14),
+          legend.position = 'none')+
+    scale_fill_manual(values = colors)
 
+    plot <- plot_grid(positive_plot, negative_plot)
+    }
 
-  if (plot_type == 'Separate'){
-
-  positive_plot <- ggplot(top_positive, aes(x = n, y = reorder(word,n), fill = sentiment))+
-  geom_bar(stat = "identity")+
-  xlab('Number of Occurences') +
-  ylab("Word")+
-  ggtitle("Most Common Positive Words")  +
-  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
-        axis.text.x = element_text(size = 10, angle = 0),
-        axis.text.y = element_text(size = 12, angle = 0),
-        axis.title = element_text(size = 14),
-        legend.position = 'none')+
-  scale_fill_manual(values = colors)
-
-  negative_plot <- ggplot(top_negative, aes(x = n, y = reorder(word,n), fill = sentiment))+
-  geom_bar(stat = "identity")+
-  xlab('Number of Occurences') +
-  ylab("Word")+
-  ggtitle("Most Common Negative Words")  +
-  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
-        axis.text.x = element_text(size = 10, angle = 0),
-        axis.text.y = element_text(size = 12, angle = 0),
-        axis.title = element_text(size = 14),
-        legend.position = 'none')+
-  scale_fill_manual(values = colors)
-
-  plot <- plot_grid(positive_plot, negative_plot)
-  }
-
-return(plot)
+    return(plot)
 }
 
 # get data for test
