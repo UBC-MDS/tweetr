@@ -176,9 +176,9 @@ sentiment_analysis <- function(tweet){
   tweet$clean_text <- gsub("http[[:alnum:][:punct:]]*", "", tweet$tweet)
   sentiment_result <- tweet %>%
   select(clean_text) %>%
-  unnest_tokens(word, clean_text) %>%
-  anti_join(stop_words) %>%
-  inner_join(get_sentiments("bing")) %>%
+  tidytext::unnest_tokens(word, clean_text) %>%
+  anti_join(tidytext::stop_words) %>%
+  inner_join(tidytext::get_sentiments("bing")) %>%
   count(word, sentiment, sort = TRUE) %>%
   ungroup()
 
