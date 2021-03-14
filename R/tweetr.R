@@ -98,7 +98,7 @@ plot_timeline <- function(df, time_col){
 
     #extract hour from time column
     tweet <- df %>%
-        mutate(hours_haha = hour( {{time_col}} ))
+        mutate(hours = lubridate::hour( {{time_col}} ))
 
     timeline_plot <- ggplot(data=tweet) +
         geom_line(aes(x=hours), stat = "count") +
