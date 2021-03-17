@@ -1,4 +1,6 @@
 
+[![codecov](https://codecov.io/gh/UBC-MDS/tweetr/branch/main/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/tweetr)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # tweetr
