@@ -5,3 +5,4 @@
 .DS_Store
 .Renviron
 .httr-oauth  #Twitter OAuth Cache
+inst/doc

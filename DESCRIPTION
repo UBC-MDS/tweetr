@@ -27,3 +27,7 @@ Imports:
     tidytext,
     magrittr,
     cowplot
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
