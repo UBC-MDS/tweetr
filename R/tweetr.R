@@ -24,7 +24,9 @@
 #' @importFrom magrittr %>%
 #' @import twitteR tidyverse dplyr
 #' @examples
-#' get_tweets('@BrunoMars', n_tweets=100)
+#' \dontrun{
+#'   get_tweets('@BrunoMars', n_tweets=100)
+#' }
 get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose = TRUE) {
     if (!is.character(handle)) {
       stop("The argument 'handle' should be a string.")
@@ -79,26 +81,26 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
 #' counts of tweets versus hours.
 #'
 #' @param df data.frame
-#' @param time_col A column name in data.frame
+#' @param time A column name in data.frame
 #'
 #' @return A chart plotting the counts of tweets versus hours.
 #' @export
 #'
 #' @import ggplot2 tidyverse lubridate
-#' @import magrittr %>%
+#' @importFrom magrittr %>%
 #'
 #' @examples
-#' tweet_data = tweetr::brunomars_data
+#' tweet_data <- tweetr::brunomars_tweet
 #' plot_timeline(tweet_data, time)
 #'
-plot_timeline <- function(df, time_col){
+plot_timeline <- function(df, time){
     if (!is.data.frame(df)) {
         stop("The argument 'df' should be a dataframe.")
     }
 
     #extract hour from time column
     tweet <- df %>%
-        mutate(hours = lubridate::hour( {{time_col}} ))
+        mutate(hours = lubridate::hour( {{time}} ))
 
     timeline_plot <- ggplot(data=tweet) +
         geom_line(aes(x=hours), stat = "count") +
@@ -125,7 +127,7 @@ plot_timeline <- function(df, time_col){
 #' @importFrom magrittr %>%
 #'
 #' @examples
-#' tweet_data = tweetr::brunomars_data
+#' tweet_data <- tweetr::brunomars_tweet
 #' plot_hashtags(tweet_data)
 plot_hashtags <- function(df){
     if (!is.data.frame(df)) {
@@ -170,13 +172,15 @@ plot_hashtags <- function(df){
 #' @param tweet data.frame
 #'
 #' @return tweet_result data.frame
+#' @export
 #'
 #' @import tidytext
 #' @importFrom graphics text
 #' @importFrom stats reorder time
 #'
 #' @examples
-#' sentiment_analysis(tweet_username_123)
+#' tweet_data <- tweetr::brunomars_tweet
+#' sentiment_analysis(tweet_data)
 sentiment_analysis <- function(tweet){
     tweet$clean_text <- gsub("http[[:alnum:][:punct:]]*", "", tweet$tweet)
     sentiment_result <- tweet %>%
@@ -201,7 +205,10 @@ sentiment_analysis <- function(tweet){
 #' @return A bar chart containing most common words in tweets, colour coded by sentiment.
 #' @export
 #'
-#' @examples visualize_sentiments(sentiment_df, plot_type = "Separate")
+#' @examples
+#' data <- tweetr::brunomars_tweet
+#' sentiment_df <- sentiment_analysis(data)
+#' visualize_sentiments(sentiment_df, plot_type = "Separate")
 visualize_sentiments <- function(sentiment_df, plot_type = "Standard") {
 
     #Checks
@@ -282,7 +289,7 @@ visualize_sentiments <- function(sentiment_df, plot_type = "Standard") {
           legend.position = 'none')+
     scale_fill_manual(values = colors)
 
-    plot <- plot_grid(positive_plot, negative_plot)
+    plot <- cowplot::plot_grid(positive_plot, negative_plot)
     }
 
     return(plot)

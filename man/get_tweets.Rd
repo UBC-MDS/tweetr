@@ -27,5 +27,7 @@ REQUIRES: Twitter API credentials need to be stored as environment
 variables as this function calls directly to the bash_profile.
 }
 \examples{
-get_tweets('@BrunoMars', n_tweets=100)
+\dontrun{
+  get_tweets('@BrunoMars', n_tweets=100)
+}
 }

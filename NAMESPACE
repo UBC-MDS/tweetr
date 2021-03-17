@@ -3,6 +3,7 @@
 export(get_tweets)
 export(plot_hashtags)
 export(plot_timeline)
+export(sentiment_analysis)
 export(visualize_sentiments)
 import(dplyr)
 import(ggplot2)
