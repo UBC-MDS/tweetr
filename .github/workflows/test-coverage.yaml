@@ -3,6 +3,7 @@ on:
     branches:
       - main
       - master
+      - marco
   pull_request:
     branches:
       - main
@@ -15,7 +16,19 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      TWITTER_ACCS_KEY: ${{ secrets.TWITTER_ACCS_KEY }}
+      TWITTER_ACCS_SEC: ${{ secrets.TWITTER_ACCS_SEC }}
+      TWITTER_CONS_KEY: ${{ secrets.TWITTER_CONS_KEY }}
+      TWITTER_CONS_SEC: ${{ secrets.TWITTER_CONS_SEC }}
     steps:
+      - name: Create credentials file
+        run: |
+          touch .Renviron
+          echo "TWITTER_CONS_KEY=${{ env.TWITTER_CONS_KEY }}
+                TWITTER_CONS_SEC=${{ env.TWITTER_CONS_SEC }}
+                TWITTER_ACCS_KEY=${{ env.TWITTER_ACCS_KEY }}
+                TWITTER_ACCS_SEC=${{ env.TWITTER_ACCS_SEC }}"
+
       - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@v1
