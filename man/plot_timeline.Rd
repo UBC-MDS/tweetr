@@ -4,12 +4,12 @@
 \alias{plot_timeline}
 \title{Plot timeline analysis}
 \usage{
-plot_timeline(df, time_col)
+plot_timeline(df, time)
 }
 \arguments{
 \item{df}{data.frame}
 
-\item{time_col}{A column name in data.frame}
+\item{time}{A column name in data.frame}
 }
 \value{
 A chart plotting the counts of tweets versus hours.
@@ -19,7 +19,7 @@ Analysis what time of day the tweets occurs and plot the
 counts of tweets versus hours.
 }
 \examples{
-tweet_data = tweetr::brunomars_data
+tweet_data <- tweetr::brunomars_tweet
 plot_timeline(tweet_data, time)
 
 }

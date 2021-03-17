@@ -19,5 +19,7 @@ Takes in the output of sentiment_analysis and creates
 a visualization of user's tweets with sentimental analysis.
 }
 \examples{
+data <- tweetr::brunomars_tweet
+sentiment_df <- sentiment_analysis(data)
 visualize_sentiments(sentiment_df, plot_type = "Separate")
 }

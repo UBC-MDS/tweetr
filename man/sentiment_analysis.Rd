@@ -19,5 +19,6 @@ Then the function matches each word to the sentiment 'positive' or 'negative' us
 words used in the tweet texts and assign each word with either 'positive' or 'negative' sentiment plus sorting by the numbers of appearence of that word.
 }
 \examples{
-sentiment_analysis(tweet_username_123)
+tweet_data <- tweetr::brunomars_tweet
+sentiment_analysis(tweet_data)
 }

@@ -26,7 +26,9 @@ Imports:
     dplyr,
     tidytext,
     magrittr,
-    cowplot
+    cowplot,
+    rlang
+
 Suggests: 
     knitr,
     rmarkdown
