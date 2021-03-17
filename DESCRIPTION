@@ -28,3 +28,5 @@ Imports:
     magrittr,
     cowplot,
     rlang
+Suggests: 
+    covr
