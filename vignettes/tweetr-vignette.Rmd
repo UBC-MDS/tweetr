@@ -36,49 +36,49 @@ library(tweetr)
     -   Note that this function requires Twitter API credentials. Users 
         need to store their credentials in a `.Renviron` file in the 
         root directory. 
-
-    ```{r 1.1, eval=FALSE}
-      data <- get_tweets('@BrunoMars', n_tweets=100)
-      
-    ```
     -   We generated a tweet data for test purpose. Once you install 
         `tweetr` package, you have install the test data, which contains 
-        500 tweets from @BrunoMars. You can use the data by 
-        `tweetr::brunomars_tweet`.
+        500 tweets from @BrunoMars. You don't have to create a credential
+        to test the other functions in this package.
+
+    ```{r 1.1}
+      data <- get_tweets('@BrunoMars', n_tweets=100)
+      data
+    ```
     
 -   Timeline analysis with `plot_timeline`:
     -   This function creates an analysis of what time of day the tweets
         occurs and plots the counts of tweets and hours.
     
-    ```{r 1.2, eval=FALSE}
+    ```{r 1.2}
     data <- tweetr::brunomars_tweet
     plot_timeline(data, time)
     ```
-    ![](../img/timeline_plot.png){width=80%}
+
         
 -   `plot_hashtags`:
     -   This function creates an analysis of the hashtags in tweets, and
         plots the most frequent hashtag words.
-    ```{r 1.3, eval=FALSE}
+    ```{r 1.3}
     data <- tweetr::brunomars_tweet
     plot_hashtags(data)
     ```
-    ![](../img/hashtag_plot.png){width=80%}
 
 -   `sentiment_analysis`:
     -   This function applies sentiment analysis to tweets. It
         associates tokens in tweets with positive or negative sentiments
         and calculates their corresponding frequencies.
-    ```{r 1.4, eval=FALSE}
+    ```{r 1.4}
     data <- tweetr::brunomars_tweet
     sentiment <- sentiment_analysis(data)
+    sentiment
     ```
 
 -   `visualize_sentiment`:
     -   This function takes in the output of sentiment\_analysis
         function and creates a visualization of user’s tweets with
         sentimental analysis.
-    ```{r 1.5, eval=FALSE}
+    ```{r 1.5}
     data <- tweetr::brunomars_tweet
     sentiment <- sentiment_analysis(data)
     visualize_sentiments(sentiment)
