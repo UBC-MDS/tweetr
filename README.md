@@ -21,6 +21,9 @@ the data.
 -   `get_tweets`:
     -   This function extracts tweets from a Twitter user given their
         handle (i.e. @elonmusk).
+    -   Note that this function requires Twitter API credentials. Users
+        need to store their credentials in a `.Renviron` file in the
+        root directory.
 -   `plot_timeline`:
     -   This function creates an analysis of what time of day the tweets
         occurs and plots the counts of tweets and hours.
