@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # tweetr
 
 <!-- badges: start -->
+[![R build status](https://github.com/UBC-MDS/tweetr/workflows/R-CMD-check/badge.svg)](https://github.com/UBC-MDS/tweetr/actions)
 <!-- badges: end -->
 
 ## Package Overview           
