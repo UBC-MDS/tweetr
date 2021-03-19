@@ -28,5 +28,8 @@ Imports:
     magrittr,
     cowplot,
     rlang
-Suggests: 
-    covr
+Suggests:
+    covr,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
