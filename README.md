@@ -1,11 +1,12 @@
 
-[![codecov](https://codecov.io/gh/UBC-MDS/tweetr/branch/main/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/tweetr)
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # tweetr
 
 <!-- badges: start -->
+
+[![R build
+status](https://github.com/UBC-MDS/tweetr/workflows/R-CMD-check/badge.svg)](https://github.com/UBC-MDS/tweetr/actions)
 <!-- badges: end -->
 
 ## Package Overview
@@ -20,9 +21,6 @@ the data.
 -   `get_tweets`:
     -   This function extracts tweets from a Twitter user given their
         handle (i.e. @elonmusk).
-    -   Note that this function requires Twitter API credentials. Users 
-        need to store their credentials in a `.Renviron` file in the 
-        root directory. 
 -   `plot_timeline`:
     -   This function creates an analysis of what time of day the tweets
         occurs and plots the counts of tweets and hours.
@@ -43,7 +41,7 @@ the data.
 There are a few existing R packages that perform tweets text analysis
 and sentiment analysis available on CRAN, such as
 [twitteR](https://cran.r-project.org/web/packages/twitteR/), and
-[tidytext](https://cran.r-project.org/web/packages/tidytext/). 
+[tidytext](https://cran.r-project.org/web/packages/tidytext/).
 
 ## Installation
 
@@ -60,5 +58,3 @@ And the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("UBC-MDS/tweetr")
 ```
-
-## Example
