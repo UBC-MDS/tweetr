@@ -23,8 +23,8 @@ test_get_tweets <- function() {
     })
 
     # test specify n_tweets
-    n = 10
-    output_10_tweets <- get_tweets('@pytweetGod', n_tweets = n)
+    n = 600
+    output_10_tweets <- get_tweets('@BrunoMars', n_tweets = n)
     test_that('Output should work corresponding to input params', {
         expect_equal(nrow(output_10_tweets), n)
     })
@@ -33,6 +33,32 @@ test_get_tweets <- function() {
     output_replies <- get_tweets('@pytweetGod', include_replies = TRUE)
     test_that('Output should work corresponding to input params', {
         expect_true(nrow(output_replies) > nrow(output))
+    })
+}
+
+
+#' #' Tests for get_tweets errors
+#' #' @param None.
+#' #'
+#' #' @return None.
+#' #'
+#' #' @examples
+#' #' test_get_tweets_error()
+#'
+test_get_tweets_error <- function() {
+
+    # Test error messages
+    test_that('Expect customized error messages for invalid input types', {
+        expect_error(get_tweets(123),
+                     regexp = "The argument 'handle' should be a string.")
+        expect_error(get_tweets('pytweetGod', n_tweets = 1.5),
+                     regexp = "The argument 'n_tweets' is invalid! Must be an integer > 0 or -1 (all).")
+        expect_error(get_tweets('pytweetGod', n_tweets = -5),
+                     regexp = "The argument 'n_tweets' is invalid! Must be an integer > 0 or -1 (all).")
+        expect_error(get_tweets('pytweetGod', include_replies = 'haha'),
+                     regexp = "The argument 'include_replies' is invalid!")
+        expect_error(get_tweets('pytweetGod', verbose = 'nice'),
+                     regexp = "The argument 'verbose' is invalid!")
     })
 }
 
