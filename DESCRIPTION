@@ -27,6 +27,10 @@ Imports:
     tidytext,
     magrittr,
     cowplot,
-    rlang
-Suggests: 
-    covr
+    rlang,
+    cachem
+Suggests:
+    covr,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
