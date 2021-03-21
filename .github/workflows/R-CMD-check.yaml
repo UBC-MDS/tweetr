@@ -38,12 +38,12 @@ jobs:
 
     steps:
       - name: Create credentials file
-          run: |
-            touch .Renviron
-            echo "TWITTER_CONS_KEY=${{ env.TWITTER_CONS_KEY }}
-                  TWITTER_CONS_SEC=${{ env.TWITTER_CONS_SEC }}
-                  TWITTER_ACCS_KEY=${{ env.TWITTER_ACCS_KEY }}
-                  TWITTER_ACCS_SEC=${{ env.TWITTER_ACCS_SEC }}"
+        run: |
+          touch .Renviron
+          echo "TWITTER_CONS_KEY=${{ env.TWITTER_CONS_KEY }}
+                TWITTER_CONS_SEC=${{ env.TWITTER_CONS_SEC }}
+                TWITTER_ACCS_KEY=${{ env.TWITTER_ACCS_KEY }}
+                TWITTER_ACCS_SEC=${{ env.TWITTER_ACCS_SEC }}"
 
       - uses: actions/checkout@v2
 
