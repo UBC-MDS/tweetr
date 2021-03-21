@@ -1,4 +1,3 @@
-[![codecov](https://codecov.io/gh/UBC-MDS/tweetr/branch/main/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/tweetr)
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # tweetr
@@ -7,6 +6,7 @@
 
 [![R build
 status](https://github.com/UBC-MDS/tweetr/workflows/R-CMD-check/badge.svg)](https://github.com/UBC-MDS/tweetr/actions)
+[![codecov](https://codecov.io/gh/UBC-MDS/tweetr/branch/master/graph/badge.svg?token=DXNIJ8JYSU)](https://codecov.io/gh/UBC-MDS/tweetr)
 <!-- badges: end -->
 
 ## Package Overview
