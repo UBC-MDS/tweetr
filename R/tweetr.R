@@ -32,7 +32,7 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
       stop("The argument 'handle' should be a string.")
     }
     if (!is.numeric(n_tweets) | n_tweets%%1 != 0 | n_tweets < -1) {
-      stop("The argument 'n_tweets' is invalid! Must be an integer > 0 or -1 (all).")
+      stop('The argument n_tweets is invalid! Must be an integer greater than 0 or -1.')
     }
     if (!is.logical(include_replies)) {
       stop("The argument 'include_replies' is invalid!")
