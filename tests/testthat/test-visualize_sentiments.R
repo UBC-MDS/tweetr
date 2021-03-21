@@ -40,6 +40,8 @@ test_visualize_sentiments <- function(sentiment){
        expect_true("Sentiment" == plot$labels$fill)
        expect_true("Word" == plot$labels$y)
        expect_true("Number of Occurences" == plot$labels$x)
+       cow <- visualize_sentiments(sentiment, plot_type = "Separate")
+       expect_true(ggplot2::is.ggplot(cow))
   })
 }
 
