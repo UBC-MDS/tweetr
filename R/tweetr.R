@@ -1,10 +1,3 @@
-
-# library(twitteR)
-# library(tidyverse)
-# library(dplyr)
-# library(tidytext)
-# library(cowplot)
-
 #' Get Tweets
 #'
 #' Create a data.frame of a user's tweets given the username/handle.
@@ -22,7 +15,7 @@
 #' @export
 #'
 #' @importFrom magrittr %>%
-#' @import twitteR tidyverse dplyr
+#' @import twitteR tidyverse
 #' @examples
 #' \dontrun{
 #'   get_tweets('@BrunoMars', n_tweets=100)
@@ -32,13 +25,13 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
       stop("The argument 'handle' should be a string.")
     }
     if (!is.numeric(n_tweets) | n_tweets%%1 != 0 | n_tweets < -1) {
-      stop("The argument 'n_tweets' is invalid! Must be an integer > 0 or -1 (all).")
+      stop('The argument n_tweets is invalid! Must be an integer greater than 0 or -1.')
     }
     if (!is.logical(include_replies)) {
       stop("The argument 'include_replies' is invalid!")
     }
     if (!is.logical(verbose)) {
-      stop("The argument 'verbose' is invalid! Must be an integer > 0 or -1 (all).")
+      stop("The argument 'verbose' is invalid!")
     }
 
     # OAuth connection to Twitter API
@@ -60,14 +53,18 @@ get_tweets <- function(handle, n_tweets = -1, include_replies = FALSE, verbose =
         }
 
         latest <- twitteR::userTimeline(handle, n = n_max, includeRts = TRUE, excludeReplies = !include_replies, maxID = oldestID)
-        result <- rbind(result, twListToDF(latest))  # append results
+        if (length(latest) > 0) {
+            result <- rbind(result, twListToDF(latest))  # append results
+        }
         oldestID <- result$id[nrow(result)]  # oldest tweet
 
         if (verbose) print(paste(nrow(result), "tweets downloaded..."))
     }
 
     # format output
-    if (n_tweets != -1) result <- result[1:n_tweets,]
+    if (n_tweets != -1 & nrow(result) > n_tweets) {
+        result <- result[1:n_tweets,]
+    }
     output <- tibble(result) %>%
         mutate(time = created, tweet = text) %>%
         select(time, tweet) %>%

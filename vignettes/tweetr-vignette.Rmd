@@ -42,9 +42,24 @@ library(tweetr)
         500 tweets from @BrunoMars. You don't have to create a credential
         to test the other functions in this package.
 
-    ```{r 1.1}
+    ```{r 1.1, eval = FALSE}
       data <- get_tweets('@BrunoMars', n_tweets=100)
+#> [1] "Using direct authentication"
       data
+#> # A tibble: 100 x 2
+#>    time                tweet                                                    
+#>    <dttm>              <chr>                                                    
+#>  1 2021-03-16 03:13:07 Andy out here got me doing the most... back to my cave 🐉…
+#>  2 2021-03-15 22:26:15 Just posted a photo https://t.co/EiWSLV6oqy              
+#>  3 2021-03-15 19:19:26 Grammys listen, I promised I wouldn’t be extra at the sh…
+#>  4 2021-03-14 20:59:10 Catch these guys tonight on The Grammys!!!! #LetSilkSoni…
+#>  5 2021-03-14 20:36:29 #LetSilkSonicThrive                                      
+#>  6 2021-03-10 01:55:17 aaaannnddd scene 🎬 https://t.co/jDgzVr4lId              
+#>  7 2021-03-10 01:47:47 Dear @RecordingAcad we humbly accept your invitation to …
+#>  8 2021-03-10 01:32:43 Maybe for one night we can put our differences aside and…
+#>  9 2021-03-09 21:01:58 Wait who tf you calling little? https://t.co/O4ByUELcnb  
+#> 10 2021-03-09 20:41:31 Brothers for life? But you’re really gonna break up the …
+#> # … with 90 more rows
     ```
     
 -   Timeline analysis with `plot_timeline`:

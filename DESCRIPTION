@@ -28,7 +28,9 @@ Imports:
     magrittr,
     cowplot,
     rlang,
-    cachem
+    cachem,
+    pkgdown,
+    fastmap
 Suggests:
     covr,
     knitr,
