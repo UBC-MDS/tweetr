@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - marco
   pull_request:
     branches:
       - main
@@ -25,14 +26,25 @@ jobs:
           - {os: windows-latest, r: 'release'}
           - {os: macOS-latest, r: 'release'}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      TWITTER_ACCS_KEY: ${{ secrets.TWITTER_ACCS_KEY }}
+      TWITTER_ACCS_SEC: ${{ secrets.TWITTER_ACCS_SEC }}
+      TWITTER_CONS_KEY: ${{ secrets.TWITTER_CONS_KEY }}
+      TWITTER_CONS_SEC: ${{ secrets.TWITTER_CONS_SEC }}
 
     steps:
+      - name: Create credentials file
+          run: |
+            touch .Renviron
+            echo "TWITTER_CONS_KEY=${{ env.TWITTER_CONS_KEY }}
+                  TWITTER_CONS_SEC=${{ env.TWITTER_CONS_SEC }}
+                  TWITTER_ACCS_KEY=${{ env.TWITTER_ACCS_KEY }}
+                  TWITTER_ACCS_SEC=${{ env.TWITTER_ACCS_SEC }}"
+
       - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@v1
