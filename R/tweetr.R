@@ -1,10 +1,3 @@
-
-# library(twitteR)
-# library(tidyverse)
-# library(dplyr)
-# library(tidytext)
-# library(cowplot)
-
 #' Get Tweets
 #'
 #' Create a data.frame of a user's tweets given the username/handle.
@@ -22,7 +15,7 @@
 #' @export
 #'
 #' @importFrom magrittr %>%
-#' @import twitteR tidyverse dplyr
+#' @import twitteR tidyverse
 #' @examples
 #' \dontrun{
 #'   get_tweets('@BrunoMars', n_tweets=100)
